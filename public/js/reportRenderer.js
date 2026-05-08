@@ -9,7 +9,9 @@ class ReportRenderer {
         document.getElementById('score-label').innerText = this.getScoreLabel(report.score);
         document.getElementById('score-label').style.color = this.gauge.getColor(report.score);
         document.getElementById('score-reasoning').innerText = report.executiveSummary.substring(0, 150) + '...';
-        document.getElementById('exec-summary').innerText = report.executiveSummary;
+        const execSummaryEl = document.getElementById('exec-summary');
+        execSummaryEl.innerText = report.executiveSummary;
+        execSummaryEl.classList.remove('loading-shimmer');
 
         // 2. KPI Bar
         const summary = report.metadata.summary;
