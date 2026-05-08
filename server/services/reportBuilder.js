@@ -19,7 +19,8 @@ const buildFinalReport = (aiAnalysis, metrics, cleaningResults, forecast, scenar
                 rowCount: metrics.summary.rowCount,
                 anomaliesFound: cleaningResults.anomalies.length,
                 duplicatesRemoved: cleaningResults.duplicateCount,
-                currencyDetected: 'USD' // Default, could be dynamic in future
+                currencyDetected: 'USD',
+                byPeriod: metrics.byPeriod
             },
             summary: metrics.summary // Pass back raw metrics for UI KPI cards
         },

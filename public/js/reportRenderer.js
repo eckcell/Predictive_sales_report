@@ -51,14 +51,6 @@ class ReportRenderer {
         // 5. Findings & Forecast
         document.getElementById('findings-list').innerHTML = report.keyFindings.map(f => `<li>${f}</li>`).join('');
         
-        const f = report.forecast.revenue[0];
-        document.getElementById('forecast-summary').innerHTML = `
-            <div class="forecast-box">
-                <div class="forecast-main">Projected Revenue: <strong>$${this.formatLarge(f.projected)}</strong></div>
-                <div class="forecast-meta">Confidence: ${Math.round(f.confidence * 100)}%</div>
-            </div>
-        `;
-
         // 6. Risks & Ops
         document.getElementById('risks-list').innerHTML = report.risks.map(r => `
             <div class="severity-item">
