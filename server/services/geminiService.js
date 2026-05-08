@@ -77,11 +77,16 @@ Do not repeat the numbers. Just provide the narrative.
 
     try {
         const response = await ai.models.generateContent({
-            systemInstructions: "You are a senior business strategist. Provide sharp, qualitative insights.",
-            contents: [{ role: 'user', parts: [{ text: prompt }] }]
+            model: 'gemini-2.5-flash',
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            config: {
+                systemInstruction: "You are a senior business strategist. Provide sharp, qualitative insights.",
+                temperature: 0.7
+            }
         });
         return response.text;
     } catch (error) {
+        console.error('Custom Scenario AI Error:', error);
         return "Analysis unavailable for this scenario.";
     }
 };

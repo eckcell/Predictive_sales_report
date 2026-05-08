@@ -48,12 +48,17 @@ const generateScenario = (baseForecast, params) => {
     const totalProfitNew = monthlyProjections.reduce((s, p) => s + p.profit.mid, 0);
     const marginNew = (totalProfitNew / (totalRevNew || 1)) * 100;
 
+    const formatImpact = (val) => {
+        const sign = val >= 0 ? '+' : '-';
+        return `${sign}$${Math.abs(Math.round(val)).toLocaleString()}`;
+    };
+
     return {
         monthlyProjections,
         impactSummary: {
-            revenueChange: `$${(totalRevNew - totalRevBase).toLocaleString()} (${((totalRevNew / (totalRevBase || 1) - 1) * 100).toFixed(1)}%)`,
-            profitChange: `$${(totalProfitNew - totalProfitBase).toLocaleString()} (${((totalProfitNew / (totalProfitBase || 1) - 1) * 100).toFixed(1)}%)`,
-            marginShift: `${(marginNew - marginBase).toFixed(1)}pp`
+            revenueChange: `${formatImpact(totalRevNew - totalRevBase)} (${((totalRevNew / (totalRevBase || 1) - 1) * 100).toFixed(1)}%)`,
+            profitChange: `${formatImpact(totalProfitNew - totalProfitBase)} (${((totalProfitNew / (totalProfitBase || 1) - 1) * 100).toFixed(1)}%)`,
+            marginShift: `${(marginNew - marginBase) >= 0 ? '+' : ''}${(marginNew - marginBase).toFixed(1)}pp`
         }
     };
 };
