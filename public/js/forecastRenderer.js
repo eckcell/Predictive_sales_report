@@ -232,7 +232,9 @@ class ForecastRenderer {
             revenueGrowth: parseInt(document.getElementById('slider-rev-growth').value) / 100,
             cogsChange: parseInt(document.getElementById('slider-cogs-change').value) / 100,
             marginTarget: parseInt(document.getElementById('slider-margin-target').value),
-            horizon: this.currentHorizon
+            horizon: this.currentHorizon,
+            metrics: this.report.metadata.raw,
+            forecast: this.report.forecast
         };
 
         btn.disabled = true;

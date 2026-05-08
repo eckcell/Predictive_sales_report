@@ -19,9 +19,18 @@ router.post('/', async (req, res) => {
     }
     lastRequest.set(ip, now);
 
-    // Cache lookup (Phase 6.1)
+    // Cache lookup with client-side fallback (handles serverless cold starts)
+    let metrics, forecast;
     const cached = cache.get(analysisId);
-    if (!cached) {
+    
+    if (cached) {
+        metrics = cached.metrics;
+        forecast = cached.forecast;
+    } else if (req.body.metrics && req.body.forecast) {
+        // Fallback to data provided by client
+        metrics = req.body.metrics;
+        forecast = req.body.forecast;
+    } else {
         return res.status(410).json({ error: 'Analysis session expired. Please re-upload your file.' });
     }
 
@@ -29,10 +38,10 @@ router.post('/', async (req, res) => {
     
     try {
         // 1. Generate statistical result
-        const scenarioResult = generateScenario(cached.forecast, params);
+        const scenarioResult = generateScenario(forecast, params);
         
         // 2. Get AI narrative (Phase 6.1)
-        const aiNarrative = await analyzeCustomScenario(cached.metrics, cached.forecast, scenarioResult, params);
+        const aiNarrative = await analyzeCustomScenario(metrics, forecast, scenarioResult, params);
         
         res.json({
             ...scenarioResult,

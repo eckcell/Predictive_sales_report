@@ -22,7 +22,8 @@ const buildFinalReport = (aiAnalysis, metrics, cleaningResults, forecast, scenar
                 currencyDetected: 'USD',
                 byPeriod: metrics.byPeriod
             },
-            summary: metrics.summary // Pass back raw metrics for UI KPI cards
+            summary: metrics.summary, // Pass back raw metrics for UI KPI cards
+            raw: metrics // Full metrics for scenario fallback
         },
         anomalies: cleaningResults.anomalies
     };
