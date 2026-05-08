@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Sales AI | Deep Insights & Forecasting</title>
+    <meta name="description" content="AI-powered sales analysis and predictive forecasting using Gemini LLM. Upload your spreadsheet for deep profitability insights.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="glass">
+            <div class="container nav-content">
+                <div class="logo">
+                    <span class="logo-icon">📈</span>
+                    <span class="logo-text">Predictive<span>Sales</span></span>
+                </div>
+                <div class="nav-links">
+                    <a href="/" class="nav-link active">Dashboard</a>
+                    <a href="/api/template" class="nav-link template-btn">Download Template</a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container">
+            <!-- Upload Section -->
+            <section id="upload-screen" class="active">
+                <div class="hero">
+                    <h1>Predict the Future of Your <span>Sales</span></h1>
+                    <p>Upload your spreadsheet to generate AI-powered scores, profitability analysis, and predictive forecasts.</p>
+                </div>
+                
+                <div id="drop-zone" class="glass-card">
+                    <div class="drop-content">
+                        <div class="icon">📁</div>
+                        <h3>Drag & Drop Spreadsheet</h3>
+                        <p>Supports .xlsx and .xls formats</p>
+                        <button class="btn btn-primary" id="select-file-btn">Browse Files</button>
+                        <input type="file" id="file-input" hidden accept=".xlsx, .xls">
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature glass-card">
+                        <div class="f-icon">💰</div>
+                        <h4>Profitability Analysis</h4>
+                        <p>Deep dive into COGS efficiency and margin compression risks.</p>
+                    </div>
+                    <div class="feature glass-card">
+                        <div class="f-icon">🔮</div>
+                        <h4>AI Forecasting</h4>
+                        <p>Predictive models for revenue, profit, and margin trends.</p>
+                    </div>
+                    <div class="feature glass-card">
+                        <div class="f-icon">🎯</div>
+                        <h4>Risk Detection</h4>
+                        <p>Identify customer concentration and seasonality threats.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Section -->
+            <section id="loading-screen">
+                <div class="loading-content glass-card">
+                    <div class="loader"></div>
+                    <h2 id="loading-status">Analyzing sales data...</h2>
+                    <p>Our AI is crunching your profitability metrics.</p>
+                    <div class="loading-steps">
+                        <div class="step active" id="step-1">Parsing spreadsheet</div>
+                        <div class="step" id="step-2">Cleaning data</div>
+                        <div class="step" id="step-3">Analyzing with Gemini AI</div>
+                        <div class="step" id="step-4">Generating report</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-screen">
+                <div class="results-header">
+                    <button class="btn btn-text" id="back-btn">← Back to Upload</button>
+                    <button class="btn btn-secondary" id="export-btn">Download PDF Report</button>
+                </div>
+
+                <div class="report-grid">
+                    <!-- Score Sidebar -->
+                    <aside class="report-sidebar">
+                        <div class="glass-card score-card">
+                            <h3>Predictive Score</h3>
+                            <div id="score-gauge-container"></div>
+                            <div id="score-label"></div>
+                            <p id="score-reasoning"></p>
+                        </div>
+
+                        <div class="glass-card dimensions-card">
+                            <h3>Score Breakdown</h3>
+                            <div id="dimensions-list"></div>
+                        </div>
+                    </aside>
+
+                    <!-- Main Report Content -->
+                    <article class="report-main">
+                        <div class="glass-card kpi-bar">
+                            <div class="kpi">
+                                <span>Revenue</span>
+                                <h2 id="kpi-revenue">-</h2>
+                            </div>
+                            <div class="kpi">
+                                <span>Total Profit</span>
+                                <h2 id="kpi-profit">-</h2>
+                            </div>
+                            <div class="kpi">
+                                <span>Gross Margin</span>
+                                <h2 id="kpi-margin">-</h2>
+                            </div>
+                            <div class="kpi">
+                                <span>Transactions</span>
+                                <h2 id="kpi-count">-</h2>
+                            </div>
+                        </div>
+
+                        <div class="glass-card summary-card">
+                            <h3>Executive Summary</h3>
+                            <div id="exec-summary"></div>
+                        </div>
+
+                        <div class="glass-card profitability-card">
+                            <h3>Profitability Analysis</h3>
+                            <div class="profit-grid">
+                                <div class="profit-metric">
+                                    <label>Margin Trend</label>
+                                    <div id="margin-trend-val" class="trend-indicator"></div>
+                                </div>
+                                <div class="profit-metric">
+                                    <label>COGS Efficiency</label>
+                                    <div id="cogs-efficiency-val"></div>
+                                </div>
+                            </div>
+                            <div class="products-tables">
+                                <div class="table-container">
+                                    <h4>High Margin Products</h4>
+                                    <ul id="high-margin-list"></ul>
+                                </div>
+                                <div class="table-container">
+                                    <h4>Low Margin Products</h4>
+                                    <ul id="low-margin-list"></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="glass-card findings-card">
+                                <h3>Key Findings</h3>
+                                <ul id="findings-list"></ul>
+                            </div>
+                            <div class="glass-card trends-card">
+                                <h3>Forecast (Next Period)</h3>
+                                <div id="forecast-summary"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="glass-card risks-card">
+                                <h3>Risks</h3>
+                                <div id="risks-list"></div>
+                            </div>
+                            <div class="glass-card ops-card">
+                                <h3>Opportunities</h3>
+                                <div id="ops-list"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card recommendations-card">
+                            <h3>Strategic Recommendations</h3>
+                            <div id="recs-list"></div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer class="container">
+            <p>&copy; 2026 Predictive Sales AI. All analysis is generated by Gemini 2.5 Flash. Use for informational purposes only.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/scoreGauge.js"></script>
+    <script src="js/reportRenderer.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
