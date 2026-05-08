@@ -81,103 +81,174 @@
             <!-- Results Section -->
             <section id="results-screen">
                 <div class="results-header">
-                    <button class="btn btn-text" id="back-btn">← Back to Upload</button>
-                    <button class="btn btn-secondary" id="export-btn">Download PDF Report</button>
+                    <h2>Predictive Analysis <span>Report</span></h2>
+                    <div class="header-actions">
+                        <button id="export-btn" class="btn btn-secondary"><span class="icon">📄</span> Export PDF</button>
+                        <button id="back-btn" class="btn btn-text">Upload New File</button>
+                    </div>
                 </div>
 
-                <div class="report-grid">
-                    <!-- Score Sidebar -->
-                    <aside class="report-sidebar">
-                        <div class="glass-card score-card">
-                            <h3>Predictive Score</h3>
-                            <div id="score-gauge-container"></div>
-                            <div id="score-label"></div>
-                            <p id="score-reasoning"></p>
-                        </div>
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="analysis">📋 Strategic Analysis</button>
+                    <button class="tab-btn" data-tab="forecast">📈 Forecast & Scenarios</button>
+                </div>
 
-                        <div class="glass-card dimensions-card">
-                            <h3>Score Breakdown</h3>
-                            <div id="dimensions-list"></div>
-                        </div>
-                    </aside>
+                <!-- Analysis Tab -->
+                <div id="analysis-tab" class="tab-content active">
+                    <div class="report-grid">
+                        <aside class="report-sidebar">
+                            <div class="glass-card score-card">
+                                <h3>Predictive Score</h3>
+                                <div id="score-gauge-container"></div>
+                                <div id="score-label">--</div>
+                                <p id="score-reasoning">Analyzing market patterns...</p>
+                            </div>
+                            
+                            <div class="glass-card dimensions-card">
+                                <h3>Score Breakdown</h3>
+                                <div id="dimensions-list"></div>
+                            </div>
+                        </aside>
 
-                    <!-- Main Report Content -->
-                    <article class="report-main">
-                        <div class="glass-card kpi-bar">
-                            <div class="kpi">
-                                <span>Revenue</span>
-                                <h2 id="kpi-revenue">-</h2>
-                            </div>
-                            <div class="kpi">
-                                <span>Total Profit</span>
-                                <h2 id="kpi-profit">-</h2>
-                            </div>
-                            <div class="kpi">
-                                <span>Gross Margin</span>
-                                <h2 id="kpi-margin">-</h2>
-                            </div>
-                            <div class="kpi">
-                                <span>Transactions</span>
-                                <h2 id="kpi-count">-</h2>
-                            </div>
-                        </div>
-
-                        <div class="glass-card summary-card">
-                            <h3>Executive Summary</h3>
-                            <div id="exec-summary"></div>
-                        </div>
-
-                        <div class="glass-card profitability-card">
-                            <h3>Profitability Analysis</h3>
-                            <div class="profit-grid">
-                                <div class="profit-metric">
-                                    <label>Margin Trend</label>
-                                    <div id="margin-trend-val" class="trend-indicator"></div>
+                        <main class="report-main">
+                            <div class="glass-card kpi-bar">
+                                <div class="kpi">
+                                    <span>Total Revenue</span>
+                                    <h2 id="kpi-revenue">$0</h2>
                                 </div>
-                                <div class="profit-metric">
-                                    <label>COGS Efficiency</label>
-                                    <div id="cogs-efficiency-val"></div>
+                                <div class="kpi">
+                                    <span>Total Profit</span>
+                                    <h2 id="kpi-profit">$0</h2>
+                                </div>
+                                <div class="kpi">
+                                    <span>Gross Margin</span>
+                                    <h2 id="kpi-margin">0%</h2>
+                                </div>
+                                <div class="kpi">
+                                    <span>Records</span>
+                                    <h2 id="kpi-count">0</h2>
                                 </div>
                             </div>
-                            <div class="products-tables">
-                                <div class="table-container">
-                                    <h4>High Margin Products</h4>
-                                    <ul id="high-margin-list"></ul>
+
+                            <div class="glass-card summary-card">
+                                <h3>Executive Summary</h3>
+                                <div id="exec-summary" class="loading-shimmer">Generating narrative analysis...</div>
+                            </div>
+
+                            <div class="glass-card profitability-card">
+                                <h3>Profitability Analysis</h3>
+                                <div class="profit-grid">
+                                    <div class="profit-metric">
+                                        <label>Margin Trend</label>
+                                        <div id="margin-trend-val" class="trend-indicator">--</div>
+                                    </div>
+                                    <div class="profit-metric">
+                                        <label>COGS Efficiency</label>
+                                        <div id="cogs-efficiency-val">--</div>
+                                    </div>
                                 </div>
-                                <div class="table-container">
-                                    <h4>Low Margin Products</h4>
-                                    <ul id="low-margin-list"></ul>
+                                <div class="products-tables">
+                                    <div>
+                                        <h4>Highest Margin Products</h4>
+                                        <ul id="high-margin-list"></ul>
+                                    </div>
+                                    <div>
+                                        <h4>Lowest Margin Products</h4>
+                                        <ul id="low-margin-list"></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="glass-card findings-card">
+                                    <h3>Key Findings</h3>
+                                    <ul id="findings-list"></ul>
+                                </div>
+                                <div class="glass-card risks-card">
+                                    <h3>Critical Risks</h3>
+                                    <div id="risks-list"></div>
+                                </div>
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="glass-card opportunities-card">
+                                    <h3>Growth Opportunities</h3>
+                                    <div id="ops-list"></div>
+                                </div>
+                                <div class="glass-card recommendations-card">
+                                    <h3>Strategic Recommendations</h3>
+                                    <div id="recs-list"></div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+                <!-- Forecast Tab -->
+                <div id="forecast-tab" class="tab-content">
+                    <div class="forecast-grid">
+                        <div class="glass-card chart-card">
+                            <div class="card-header">
+                                <h3>Forecast Timeline</h3>
+                                <div class="chart-controls">
+                                    <div class="metric-toggles">
+                                        <button class="toggle-btn active" data-metric="revenue">Revenue</button>
+                                        <button class="toggle-btn" data-metric="profit">Profit</button>
+                                        <button class="toggle-btn" data-metric="margin">Margin</button>
+                                    </div>
+                                    <div class="horizon-toggles">
+                                        <button class="toggle-btn" data-horizon="3">3M</button>
+                                        <button class="toggle-btn active" data-horizon="6">6M</button>
+                                        <button class="toggle-btn" data-horizon="12">12M</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="forecast-chart"></canvas>
+                            </div>
+                            <p class="stat-disclaimer">Projections use statistical models (ETS, OLS) and are estimates, not guarantees. Shaded areas represent confidence intervals.</p>
+                        </div>
+
+                        <div class="glass-card scenario-card">
+                            <h3>Scenario Comparison</h3>
+                            <div id="scenario-cards-grid" class="scenario-grid"></div>
+                        </div>
+
+                        <div class="glass-card builder-card">
+                            <div class="builder-layout">
+                                <div class="builder-controls">
+                                    <h3>Custom Scenario Builder</h3>
+                                    <div class="slider-group">
+                                        <div class="slider-item">
+                                            <div class="slider-header">
+                                                <label>Revenue Growth</label>
+                                                <span id="val-rev-growth">+0%</span>
+                                            </div>
+                                            <input type="range" id="slider-rev-growth" min="-30" max="30" value="0">
+                                        </div>
+                                        <div class="slider-item">
+                                            <div class="slider-header">
+                                                <label>COGS Change</label>
+                                                <span id="val-cogs-change">+0%</span>
+                                            </div>
+                                            <input type="range" id="slider-cogs-change" min="-20" max="20" value="0">
+                                        </div>
+                                        <div class="slider-item">
+                                            <div class="slider-header">
+                                                <label>Margin Target</label>
+                                                <span id="val-margin-target">Default</span>
+                                            </div>
+                                            <input type="range" id="slider-margin-target" min="5" max="80" value="40">
+                                        </div>
+                                    </div>
+                                    <button id="run-scenario-btn" class="btn btn-primary">Run Scenario</button>
+                                </div>
+                                <div id="scenario-result-box" class="scenario-result-box">
+                                    <div class="result-placeholder">Adjust sliders and click "Run Scenario" to see impact.</div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="grid-2">
-                            <div class="glass-card findings-card">
-                                <h3>Key Findings</h3>
-                                <ul id="findings-list"></ul>
-                            </div>
-                            <div class="glass-card trends-card">
-                                <h3>Forecast (Next Period)</h3>
-                                <div id="forecast-summary"></div>
-                            </div>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="glass-card risks-card">
-                                <h3>Risks</h3>
-                                <div id="risks-list"></div>
-                            </div>
-                            <div class="glass-card ops-card">
-                                <h3>Opportunities</h3>
-                                <div id="ops-list"></div>
-                            </div>
-                        </div>
-
-                        <div class="glass-card recommendations-card">
-                            <h3>Strategic Recommendations</h3>
-                            <div id="recs-list"></div>
-                        </div>
-                    </article>
+                    </div>
                 </div>
             </section>
         </main>
@@ -189,8 +260,10 @@
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="js/scoreGauge.js"></script>
     <script src="js/reportRenderer.js"></script>
+    <script src="js/forecastRenderer.js"></script>
     <script src="js/upload.js"></script>
     <script src="js/app.js"></script>
 </body>

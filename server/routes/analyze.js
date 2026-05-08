@@ -10,6 +10,9 @@ const { cleanData } = require('../services/dataCleaner');
 const { computeMetrics } = require('../services/metricsEngine');
 const { analyzeSalesData } = require('../services/geminiService');
 const { buildFinalReport } = require('../services/reportBuilder');
+const { generateForecast } = require('../services/forecastEngine');
+const { generateAllScenarios } = require('../services/scenarioEngine');
+const cache = require('../services/cache');
 
 // Multer setup for file uploads
 const upload = multer({
@@ -46,12 +49,20 @@ router.post('/', upload.single('file'), async (req, res) => {
         // 3. Compute Metrics
         const metrics = computeMetrics(cleanedRows);
         
-        // 4. Analyze with Gemini
-        // We send summary metrics + first 50 rows for pattern context
-        const aiAnalysis = await analyzeSalesData(metrics, cleanedRows.slice(0, 50));
+        // 4. Generate Statistical Forecast (Phase 1)
+        const forecast = generateForecast(metrics.byPeriod);
         
-        // 5. Build Final Report
-        const report = buildFinalReport(aiAnalysis, metrics, { anomalies, duplicateCount });
+        // 5. Generate Scenarios (Phase 2)
+        const scenarios = generateAllScenarios(forecast);
+
+        // 6. Analyze with Gemini (Phase 3)
+        const aiAnalysis = await analyzeSalesData(metrics, cleanedRows.slice(0, 20), forecast, scenarios);
+        
+        // 7. Store in Cache (Phase 4)
+        const analysisId = cache.store(metrics, forecast);
+
+        // 8. Build Final Report
+        const report = buildFinalReport(aiAnalysis, metrics, { anomalies, duplicateCount }, forecast, scenarios, analysisId);
 
         res.json(report);
     } catch (error) {

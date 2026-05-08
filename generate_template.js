@@ -34,21 +34,28 @@ async function generateTemplate() {
         const isDecember = month === 11;
         const isSummer = month >= 5 && month <= 7;
         
-        // Base revenue with a slight upward growth trend over 2 years
-        const growthFactor = 1 + (i / daysToGenerate) * 0.4; // 40% growth over 2 years
+        // Base revenue with growth trend, then plateau after 1.5 years (🔧 O11)
+        let growthFactor = 1 + (i / daysToGenerate) * 0.5; 
+        if (i > (daysToGenerate * 0.75)) growthFactor = 1.37; // Plateau in last 6 months
+        
         let baseRev = (Math.floor(Math.random() * 3000) + 2000) * growthFactor;
         
-        // Add seasonality
-        if (isDecember) baseRev *= 1.5; // Holiday spike
-        if (isSummer) baseRev *= 0.8;   // Summer slump
+        // Add seasonality (🔧 O11: sharper patterns)
+        if (isDecember) baseRev *= 2.0; 
+        if (month === 0) baseRev *= 0.7; // Jan slump
+        if (isSummer) baseRev *= 0.85;   
         
-        // Margin logic: Costs slowly increasing (margin compression)
-        const marginFactor = 0.6 - (i / daysToGenerate) * 0.1; // Margin drops from 60% to 50%
-        const cogs = baseRev * (1 - marginFactor + (Math.random() * 0.1 - 0.05));
+        const product = products[Math.floor(Math.random() * products.length)];
+        
+        // Margin logic: Costs slowly increasing, especially for 'Data Analytics' (🔧 O11)
+        let marginBase = 0.6 - (i / daysToGenerate) * 0.1;
+        if (product === 'Data Analytics' && i > 400) marginBase -= 0.15; // Margin crash for one product
+        
+        const cogs = baseRev * (1 - marginBase + (Math.random() * 0.08 - 0.04));
         
         data.push({
             date: date,
-            product: products[Math.floor(Math.random() * products.length)],
+            product: product,
             revenue: Math.round(baseRev),
             unitsSold: Math.floor((baseRev / 100) + Math.random() * 10),
             cogs: Math.round(cogs),

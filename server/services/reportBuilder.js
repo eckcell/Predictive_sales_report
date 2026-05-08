@@ -5,9 +5,13 @@
  * @param {Object} cleaningResults - Info about anomalies/duplicates
  * @returns {Object} Final report object
  */
-const buildFinalReport = (aiAnalysis, metrics, cleaningResults) => {
+const buildFinalReport = (aiAnalysis, metrics, cleaningResults, forecast, scenarios, analysisId) => {
     return {
+        apiVersion: 2,
+        analysisId,
         ...aiAnalysis,
+        forecast,
+        scenarios,
         metadata: {
             analysisDate: new Date().toISOString(),
             dataSource: 'Excel Spreadsheet',

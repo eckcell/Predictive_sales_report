@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Routes
 app.use('/api/analyze', require('./routes/analyze'));
+app.use('/api/scenario', require('./routes/scenario'));
 app.use('/api/template', require('./routes/template'));
 
 // Health check

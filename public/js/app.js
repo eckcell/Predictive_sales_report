@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderer = new ReportRenderer();
+    const forecastRenderer = new ForecastRenderer();
     
     const uploader = new Uploader(
         (data) => {
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 showScreen('results');
                 renderer.render(data);
+                forecastRenderer.render(data);
             } catch (err) {
                 console.error(err);
                 document.getElementById('results-screen').innerHTML = `
@@ -30,6 +32,21 @@ document.addEventListener('DOMContentLoaded', () => {
             showScreen('upload');
         }
     );
+
+    // Tab switching logic
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.dataset.tab;
+            
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+    });
 
     // Screen switching logic
     function showScreen(name) {
@@ -54,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             margin: 10,
             filename: 'Sales_Analysis_Report.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, backgroundColor: '#0f172a' },
+            html2canvas: { scale: 2, backgroundColor: '#000000' },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
         html2pdf().set(opt).from(element).save();
