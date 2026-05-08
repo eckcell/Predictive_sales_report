@@ -30,7 +30,12 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 Predictive Sales Server running at http://localhost:${PORT}`);
-});
+// Start server if not running in serverless environment
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Predictive Sales Server running at http://localhost:${PORT}`);
+    });
+}
+
+// Export for Vercel
+module.exports = app;

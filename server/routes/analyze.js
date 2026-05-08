@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 const { parseExcel } = require('../services/excelParser');
 const { cleanData } = require('../services/dataCleaner');
@@ -12,7 +13,7 @@ const { buildFinalReport } = require('../services/reportBuilder');
 
 // Multer setup for file uploads
 const upload = multer({
-    dest: 'server/uploads/',
+    dest: os.tmpdir(),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname).toLowerCase();
