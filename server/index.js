@@ -15,11 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Ensure uploads directory exists
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Ensure uploads directory is not strictly needed for Vercel (/tmp is used)
 
 // Routes
 app.use('/api/analyze', require('./routes/analyze'));
